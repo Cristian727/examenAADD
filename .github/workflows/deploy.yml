@@ -33,7 +33,7 @@ jobs:
       run: |
         sshpass -e ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << EOF
         pm2 stop Cristian-web || true
-        cd /root/Cristian-web
+        cd /root/examenAADD
         git pull origin main
         npm install
         pm2 start Cristian-web
