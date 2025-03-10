@@ -1,20 +1,23 @@
-const express = require("express");
-const fs = require("fs");
-const https = require("https");
-const cors = require("cors");
-require("dotenv").config();
-
+const express = require('express');
 const app = express();
-app.use(cors());
-app.get("/", (req, res) => res.send("Servidor funcionando"));
+const PORT = process.env.PORT || 3000; // Usamos el puerto definido en el entorno o 3000 por defecto
 
-const PORT = process.env.PORT || 3000;
-if (process.env.HTTPS === "true") {
-  const options = {
-    key: fs.readFileSync("/etc/letsencrypt/live/tu-dominio.com/privkey.pem"),
-    cert: fs.readFileSync("/etc/letsencrypt/live/tu-dominio.com/fullchain.pem"),
-  };
-  https.createServer(options, app).listen(PORT, () => console.log(`Servidor HTTPS en puerto ${PORT}`));
-} else {
-  app.listen(PORT, () => console.log(`Servidor HTTP en puerto ${PORT}`));
-}
+// Middleware para manejar JSON en las peticiones
+app.use(express.json());
+
+// Ruta principal
+app.get('/', (req, res) => {
+  res.send('Aquí estamos de examen');
+});
+
+// Ruta para verificar el estado del servidor
+app.get('/health', (req, res) => {
+  res.status(200).json({ message: 'Servidor funcionando correctamente' });
+});
+
+// Inicia el servidor
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
+
+module.exports = app;
