@@ -35,6 +35,6 @@ jobs:
           cd /root/basic-deploy
           git pull origin main
           npm install
-          pm2 stop mi-servidor || true
-          pm2 start server.js --name "mi-servidor"
+          pm2 stop Cristian-web || true
+          pm2 start server.js --name "Cristian-web"
         EOF
