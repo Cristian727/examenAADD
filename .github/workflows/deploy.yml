@@ -27,14 +27,7 @@ jobs:
         SSHPASS: ${{ secrets.VPS_PASSWORD }}
       run: sshpass -e scp -r ./ ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:/root/basic-deploy
 
-    - name: Execute commands on VPS
+    - name: Execute command on VPS
       env:
         SSHPASS: ${{ secrets.VPS_PASSWORD }}
-      run: |
-        sshpass -e ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} << EOF
-          cd /root/basic-deploy
-          git pull origin main
-          npm install
-          pm2 stop Cristian-web || true
-          pm2 start server.js --name "Cristian-web"
-        EOF
+      run: sshpass -e ssh ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }} "pm2 stop Cristian-web || true && cd /root/basic-deploy && git pull origin main && npm install && pm2 start server.js --name 'Cristian-web' &"
