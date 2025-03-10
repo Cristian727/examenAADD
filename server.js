@@ -12,7 +12,7 @@ app.get('/', (req, res) => {
 
 // Ruta para verificar el estado del servidor
 app.get('/health', (req, res) => {
-  res.status(200).json({ message: 'Servidor funcionando correctamente' });
+  res.status(200).json({ message: 'Servidor 2' });
 });
 
 // Inicia el servidor
