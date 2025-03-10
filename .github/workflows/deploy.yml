@@ -22,11 +22,11 @@ jobs:
     - name: Add remote host to known_hosts
       run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
-    - name: Copy files via SCP
-      env:
-        SSHPASS: ${{ secrets.SSH_PASSWORD }}
-      run: sshpass -e scp -r ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/root/Cristian-web
-
+    #- name: Copy files via SCP
+      # env:
+      #   SSHPASS: ${{ secrets.SSH_PASSWORD }}
+      # run: sshpass -e scp -r ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/root/Cristian-web
+    
     - name: Execute commands on VPS
       env:
         SSHPASS: ${{ secrets.SSH_PASSWORD }}
