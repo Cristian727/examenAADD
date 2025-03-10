@@ -1,4 +1,4 @@
-name: Deploy to CI/CD
+name: Deploy to VPS
 
 on:
   push:
@@ -13,23 +13,28 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Set up SSH key
-      run: |
-        mkdir -p ~/.ssh
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+    - name: Install sshpass
+      run: sudo apt-get install -y sshpass
+
+    - name: Create .ssh directory
+      run: mkdir -p ~/.ssh
+
+    - name: Add remote host to known_hosts
+      run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
 
     - name: Copy files via SCP
-      run: |
-        scp -r ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/root/website
+      env:
+        SSHPASS: ${{ secrets.SSH_PASSWORD }}
+      run: sshpass -e scp -r ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/root/Cristian-web
 
-    - name: Execute command on VPS
+    - name: Execute commands on VPS
+      env:
+        SSHPASS: ${{ secrets.SSH_PASSWORD }}
       run: |
-        ssh -i ~/.ssh/id_rsa ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << EOF
-          pm2 stop Cristian-web || true
-          cd /root/website
-          git pull origin main
-          npm install
-          pm2 start server.js --name "Cristian-web"
+        sshpass -e ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} << EOF
+        pm2 stop Cristian-web || true
+        cd /root/Cristian-web
+        git pull origin main
+        npm install
+        pm2 start Cristian-web
         EOF
