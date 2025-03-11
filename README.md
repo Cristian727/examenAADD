@@ -135,3 +135,5 @@ Este repositorio contiene:
 
 Hemos desplegado un servidor Express en un VPS, asegurando soporte para HTTP y HTTPS, con gestión eficiente mediante `pm2`. La aplicación responde correctamente a las solicitudes y se mantiene en ejecución en el servidor.
 
+![Captura desde 2025-03-10 11-32-19](https://github.com/user-attachments/assets/db763172-4fbc-4e27-adc3-47622abb5ef7)
+![Captura desde 2025-03-10 11-57-57](https://github.com/user-attachments/assets/0bae95cd-45cc-418a-be10-908a91909842)
